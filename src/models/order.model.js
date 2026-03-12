@@ -53,13 +53,14 @@ const orderSchema = new mongoose.Schema(
 );
 
 // Auto-generate order ID like PA-XXXXX before save
-orderSchema.pre("save",async function () {
+orderSchema.pre("save", function () {
   if (!this.orderId) {
     this.orderId = "PA-" + Date.now().toString(36).toUpperCase();
   }
   if (!this.date) {
     this.date = new Date().toISOString().split("T")[0];
   }
+  // next();
 });
 
 export const Order = mongoose.model("Order", orderSchema);

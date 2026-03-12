@@ -5,35 +5,35 @@ import { ApiResponse } from "../utils/ApiResponse.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { sendEmail } from "../config/nodemailer.js";
 import { orderConfirmEmail, orderStatusEmail, adminOrderEmail } from "../utils/emailTemplates.js";
-import { adminEmail, email } from "../constants.js";
 
 // ── POST /api/orders ──────────────────────────────────────────────────────────
 export const createOrder = asyncHandler(async (req, res) => {
-  const { items, total, addr, phone, payment } = req.body;
+  const { items, total, addr, phone, payment, userName, userPhone } = req.body;
 
   if (!items?.length) throw new ApiError(400, "Order must have at least one item");
-  if(!phone) throw new ApiError(400, "Phone number is required for delivery updates");
-  if (!addr) throw new ApiError(400, "Delivery address is required");
-  if (!total) throw new ApiError(400, "Order total is required");
+  if (!addr)          throw new ApiError(400, "Delivery address is required");
+  if (!total)         throw new ApiError(400, "Order total is required");
 
   // Sanitise items — coerce productId to String so numeric seed IDs don't
   // cause Mongoose ObjectId CastErrors.
   const sanitisedItems = items.map(i => ({
     productId: i.productId ? String(i.productId) : null,
-    title: String(i.title),
-    price:Number(i.price),
-    qty:Number(i.qty),
-    size: String(i.size),
-    img: i.img || "",
+    title:     String(i.title),
+    price:     Number(i.price),
+    qty:       Number(i.qty),
+    size:      String(i.size),
+    img:       i.img || "",
   }));
 
   const order = await Order.create({
-    user:    req.user._id,
-    items:   sanitisedItems,
-    total:   Number(total),
+    user:      req.user._id,
+    userName:  userName  || req.user.name  || "",
+    userPhone: userPhone || phone          || "",
+    items:     sanitisedItems,
+    total:     Number(total),
     addr,
-    phone,
-    payment: payment || "cod",
+    phone:     phone   || "",
+    payment:   payment || "cod",
   });
 
   // ── Decrement stock for real MongoDB products (ignore seed/numeric IDs) ────
@@ -56,7 +56,7 @@ export const createOrder = asyncHandler(async (req, res) => {
     html:    orderConfirmEmail(order, req.user),
   });
 
-  const adminEmail = adminEmail || email;
+  const adminEmail = process.env.ADMIN_EMAIL || process.env.EMAIL;
   if (adminEmail) {
     sendEmail({
       to:      adminEmail,
@@ -101,7 +101,7 @@ export const updateOrderStatus = asyncHandler(async (req, res) => {
   if (!allowed.includes(status)) throw new ApiError(400, `Status must be one of: ${allowed.join(", ")}`);
 
   const order = await Order.findByIdAndUpdate(
-    req.params.id, { status }, { new: true }
+    req.params.id, { status }, { returnDocument: 'after' }
   ).populate("user", "name email");
 
   if (!order) throw new ApiError(404, "Order not found");
@@ -124,8 +124,8 @@ function formatOrder(o) {
     id:          o.orderId,
     _id:         o._id,
     user:        userObj?.email  || o.user,
-    userName:    userObj?.name   || "",
-    userPhone:   userObj?.phone  || o.phone || "",
+    userName:    o.userName      || userObj?.name   || "",
+    userPhone:   o.userPhone     || userObj?.phone  || o.phone || "",
     userAddress: userObj?.address || "",
     userAvatar:  userObj?.avatar || "",
     items:       o.items,

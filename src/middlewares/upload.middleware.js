@@ -20,9 +20,30 @@ const upload = multer({
 
 // Single image — field name "image"
 export const uploadSingle = upload.single("image");
-// Multiple images (up to 10) — field name "images"
+
+// Two images — fields "img" and "img2"
 export const uploadProductImages = upload.fields([
   { name: "img",  maxCount: 1 },
   { name: "img2", maxCount: 1 },
-  { name: "img3", maxCount: 1 },
 ]);
+
+// Conditional wrapper — only invokes multer when the request is multipart/form-data.
+// For plain JSON requests (URL-paste saves), multer must NOT run because it does not
+// parse application/json and would leave req.body empty.
+export const conditionalUploadSingle = (req, res, next) => {
+  const ct = req.headers["content-type"] || "";
+  if (ct.includes("multipart/form-data")) {
+    return uploadSingle(req, res, next);
+  }
+  next();
+};
+
+// Conditional wrapper for the two-field product upload (img + img2).
+// Only invokes multer when the request is multipart/form-data.
+export const conditionalUploadProductImages = (req, res, next) => {
+  const ct = req.headers["content-type"] || "";
+  if (ct.includes("multipart/form-data")) {
+    return uploadProductImages(req, res, next);
+  }
+  next();
+};
