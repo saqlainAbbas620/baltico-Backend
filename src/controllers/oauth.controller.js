@@ -53,12 +53,13 @@ export const googleAuth = asyncHandler(async (req, res) => {
     const hashedPassword = await bcrypt.hash(googleId + process.env.ACCESS_TOKEN_SECRET, 10);
 
     user = await User.create({
-      name: name || email.split("@")[0],
+      name:       name || email.split("@")[0],
       email,
-      password: hashedPassword,   // already hashed — pre-save hook skips (isModified = false after create)
+      password:   hashedPassword,
       googleId,
-      avatar:   picture || "",
-      isAdmin:  false,
+      avatar:     picture || "",
+      isAdmin:    false,
+      isVerified: true,   // Google has already verified the email
     });
     isNewUser = true;
 
@@ -72,7 +73,8 @@ export const googleAuth = asyncHandler(async (req, res) => {
     // Link Google account to existing email/password user
     await User.findByIdAndUpdate(user._id, {
       googleId,
-      avatar: user.avatar || picture || "",
+      avatar:     user.avatar || picture || "",
+      isVerified: true,   // trust Google's verification
     });
     user = await User.findById(user._id); // re-fetch with updates
   }
@@ -84,13 +86,15 @@ export const googleAuth = asyncHandler(async (req, res) => {
   // Use updateOne to save refreshToken — bypasses pre-save hook entirely
   await User.updateOne({ _id: user._id }, { $set: { refreshToken } });
 
+  const IS_PROD = process.env.NODE_ENV === "production";
+
   // ── Step 4: Respond ──────────────────────────────────────────────────────────
   res
     .status(isNewUser ? 201 : 200)
     .cookie("refreshToken", refreshToken, {
       httpOnly: true,
-      secure:  true,
-      sameSite: "lax",    // "lax" (not "strict") — required for Google OAuth popup flow
+      secure:   IS_PROD,
+      sameSite: IS_PROD ? "none" : "lax",
       maxAge:   7 * 24 * 60 * 60 * 1000,
     })
     .json(
@@ -99,13 +103,13 @@ export const googleAuth = asyncHandler(async (req, res) => {
         {
           token: accessToken,
           user: {
-            id: user._id,
-            name: user.name,
-            email: user.email,
-            avatar: user.avatar,
+            id:      user._id,
+            name:    user.name,
+            email:   user.email,
+            avatar:  user.avatar,
             isAdmin: user.isAdmin,
             address: user.address || "",
-            phone: user.phone || "",
+            phone:   user.phone || "",
           },
         },
         isNewUser ? "Account created via Google" : "Logged in via Google"

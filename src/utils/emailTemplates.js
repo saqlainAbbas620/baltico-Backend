@@ -1,6 +1,6 @@
 export const verificationEmail = (name, verifyUrl) => `
   <div style="font-family:'Helvetica Neue',sans-serif;max-width:600px;margin:0 auto;padding:40px 24px;background:#fff;">
-    <h1 style="font-size:32px;font-weight:300;letter-spacing:4px;margin-bottom:4px;">Lumière</h1>
+    <h1 style="font-size:32px;font-weight:300;letter-spacing:4px;margin-bottom:4px;">BaltiCo</h1>
     <p style="font-size:10px;letter-spacing:3px;color:#999;text-transform:uppercase;margin-bottom:32px;">Verify Your Email</p>
     <p style="font-size:15px;line-height:1.8;color:#333;">Hi <strong>${name}</strong>,</p>
     <p style="font-size:15px;line-height:1.8;color:#333;">Thank you for creating an account. Please verify your email address to complete your registration.</p>
@@ -14,20 +14,20 @@ export const verificationEmail = (name, verifyUrl) => `
     <p style="font-size:12px;color:#aaa;word-break:break-all;">Or copy this link: ${verifyUrl}</p>
     <p style="font-size:12px;color:#bbb;margin-top:24px;">If you didn't create this account, you can safely ignore this email.</p>
     <div style="margin-top:32px;padding-top:24px;border-top:1px solid #e5e5e5;">
-      <p style="font-size:11px;color:#aaa;letter-spacing:2px;text-transform:uppercase;">© 2026 Lumière — Defining the Culture.</p>
+      <p style="font-size:11px;color:#aaa;letter-spacing:2px;text-transform:uppercase;">© 2026 BaltiCo — Defining the Culture.</p>
     </div>
   </div>
 `;
 
 export const welcomeEmail = (name) => `
   <div style="font-family:'Helvetica Neue',sans-serif;max-width:600px;margin:0 auto;padding:40px 24px;background:#fff;">
-    <h1 style="font-size:32px;font-weight:300;letter-spacing:4px;margin-bottom:4px;">Lumière</h1>
+    <h1 style="font-size:32px;font-weight:300;letter-spacing:4px;margin-bottom:4px;">BaltiCo</h1>
     <p style="font-size:10px;letter-spacing:3px;color:#999;text-transform:uppercase;margin-bottom:32px;">Welcome</p>
     <p style="font-size:15px;line-height:1.8;color:#333;">Hi <strong>${name}</strong>,</p>
-    <p style="font-size:15px;line-height:1.8;color:#333;">Welcome to Lumière. Your account has been created successfully.</p>
+    <p style="font-size:15px;line-height:1.8;color:#333;">Welcome to BaltiCo. Your account has been created successfully.</p>
     <p style="font-size:15px;line-height:1.8;color:#555;">Explore our latest collections and enjoy free shipping on orders over £200.</p>
     <div style="margin-top:32px;padding-top:24px;border-top:1px solid #e5e5e5;">
-      <p style="font-size:11px;color:#aaa;letter-spacing:2px;text-transform:uppercase;">© 2026 Lumière — Defining the Culture.</p>
+      <p style="font-size:11px;color:#aaa;letter-spacing:2px;text-transform:uppercase;">© 2026 BaltiCo — Defining the Culture.</p>
     </div>
   </div>
 `;
@@ -43,7 +43,7 @@ export const orderConfirmEmail = (order, user) => {
 
   return `
     <div style="font-family:'Helvetica Neue',sans-serif;max-width:600px;margin:0 auto;padding:40px 24px;background:#fff;">
-      <h1 style="font-size:32px;font-weight:300;letter-spacing:4px;margin-bottom:4px;">Lumière</h1>
+      <h1 style="font-size:32px;font-weight:300;letter-spacing:4px;margin-bottom:4px;">BaltiCo</h1>
       <p style="font-size:10px;letter-spacing:3px;color:#999;text-transform:uppercase;margin-bottom:32px;">Order Confirmed</p>
       <p style="font-size:15px;color:#333;">Hi <strong>${user.name}</strong>, your order has been placed!</p>
       <p style="font-size:13px;color:#777;letter-spacing:2px;margin:16px 0;">ORDER: <strong style="color:#0a0a0a;">${order.orderId}</strong></p>
@@ -67,7 +67,7 @@ export const orderConfirmEmail = (order, user) => {
       <p style="font-size:13px;color:#555;"><strong>Payment:</strong> Cash on Delivery</p>
       <p style="font-size:13px;color:#555;margin-top:16px;">Estimated delivery: 3–5 business days.</p>
       <div style="margin-top:32px;padding-top:24px;border-top:1px solid #e5e5e5;">
-        <p style="font-size:11px;color:#aaa;letter-spacing:2px;text-transform:uppercase;">© 2026 Lumière — Defining the Culture.</p>
+        <p style="font-size:11px;color:#aaa;letter-spacing:2px;text-transform:uppercase;">© 2026 BaltiCo — Defining the Culture.</p>
       </div>
     </div>
   `;
@@ -75,13 +75,13 @@ export const orderConfirmEmail = (order, user) => {
 
 export const orderStatusEmail = (order, user) => `
   <div style="font-family:'Helvetica Neue',sans-serif;max-width:600px;margin:0 auto;padding:40px 24px;background:#fff;">
-    <h1 style="font-size:32px;font-weight:300;letter-spacing:4px;margin-bottom:4px;">Lumière</h1>
+    <h1 style="font-size:32px;font-weight:300;letter-spacing:4px;margin-bottom:4px;">BaltiCo</h1>
     <p style="font-size:10px;letter-spacing:3px;color:#999;text-transform:uppercase;margin-bottom:32px;">Order Update</p>
     <p style="font-size:15px;color:#333;">Hi <strong>${user.name}</strong>,</p>
     <p style="font-size:15px;color:#333;">Your order <strong>${order.orderId}</strong> status has been updated to:</p>
     <p style="font-size:22px;font-weight:700;letter-spacing:3px;text-transform:uppercase;margin:24px 0;color:#0a0a0a;">${order.status}</p>
     <div style="margin-top:32px;padding-top:24px;border-top:1px solid #e5e5e5;">
-      <p style="font-size:11px;color:#aaa;letter-spacing:2px;text-transform:uppercase;">© 2026 Lumière — Defining the Culture.</p>
+      <p style="font-size:11px;color:#aaa;letter-spacing:2px;text-transform:uppercase;">© 2026 BaltiCo — Defining the Culture.</p>
     </div>
   </div>
 `;
@@ -97,7 +97,7 @@ export const adminOrderEmail = (order, user) => {
 
   return `
     <div style="font-family:'Helvetica Neue',sans-serif;max-width:600px;margin:0 auto;padding:40px 24px;background:#fff;">
-      <h1 style="font-size:32px;font-weight:300;letter-spacing:4px;margin-bottom:4px;">Lumière</h1>
+      <h1 style="font-size:32px;font-weight:300;letter-spacing:4px;margin-bottom:4px;">BaltiCo</h1>
       <p style="font-size:10px;letter-spacing:3px;color:#999;text-transform:uppercase;margin-bottom:32px;">New Order Received</p>
 
       <!-- Order ID banner -->
@@ -148,7 +148,7 @@ export const adminOrderEmail = (order, user) => {
       <p style="font-size:12px;color:#999;">Payment: Cash on Delivery &nbsp;·&nbsp; ${new Date().toLocaleString("en-GB")}</p>
 
       <div style="margin-top:32px;padding-top:24px;border-top:1px solid #e5e5e5;">
-        <p style="font-size:11px;color:#aaa;letter-spacing:2px;text-transform:uppercase;">© 2026 Lumière Admin Notification</p>
+        <p style="font-size:11px;color:#aaa;letter-spacing:2px;text-transform:uppercase;">© 2026 BaltiCo Admin Notification</p>
       </div>
     </div>
   `;
