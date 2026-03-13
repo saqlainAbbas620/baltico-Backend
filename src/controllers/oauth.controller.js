@@ -101,7 +101,7 @@ export const googleAuth = asyncHandler(async (req, res) => {
 
   if (!user) {
     const hashedPassword = await bcrypt.hash(
-      googleId + (process.env.ACCESS_TOKEN_SECRET || "lumiere"),
+      googleId + (process.env.ACCESS_TOKEN_SECRET || "baltico"),
       10
     );
     user = await User.create({
@@ -117,7 +117,7 @@ export const googleAuth = asyncHandler(async (req, res) => {
 
     sendEmail({
       to:      email,
-      subject: "Welcome to Lumière",
+      subject: "Welcome to BaltiCo",
       html:    welcomeEmail(user.name),
     }).catch(() => {});
 
