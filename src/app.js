@@ -13,7 +13,7 @@ import { errorHandler } from "./middlewares/errorHandler.middleware.js";
 const app = express();
 
 app.use(cors({
-  origin: "https://baltico-frontend.vercel.app",
+  origin: "https://baltico.vercel.app",
   credentials: true,
 }));
 // app.options("*", cors());
