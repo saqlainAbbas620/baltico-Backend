@@ -74,17 +74,17 @@ const productSchema = new mongoose.Schema(
 );
 
 // Auto-derive stock status from quantity
-productSchema.pre("save", function (next) {
+productSchema.pre("save", function () {
   if (this.isModified("quantity") || this.isNew) {
     if (this.quantity <= 0)  this.stock = "out";
     else if (this.quantity < 10) this.stock = "low";
     else this.stock = "in";
   }
-  next();
+  // next();
 });
 
 // Same for findOneAndUpdate / findByIdAndUpdate
-productSchema.pre(["findOneAndUpdate", "updateOne", "findByIdAndUpdate"], function (next) {
+productSchema.pre(["findOneAndUpdate", "updateOne", "findByIdAndUpdate"], function () {
   const update = this.getUpdate();
   const qty = update?.$set?.quantity ?? update?.quantity;
   if (qty !== undefined) {
@@ -92,7 +92,7 @@ productSchema.pre(["findOneAndUpdate", "updateOne", "findByIdAndUpdate"], functi
     if (update.$set) update.$set.stock = stockVal;
     else update.stock = stockVal;
   }
-  next();
+  // next();
 });
 
 export const Product = mongoose.model("Product", productSchema);

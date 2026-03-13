@@ -138,7 +138,7 @@ export const verifyEmail = asyncHandler(async (req, res) => {
   // Send welcome email (non-blocking)
   sendEmail({
     to:      user.email,
-    subject: "Welcome to Lumière",
+    subject: "Welcome to BaltiOo",
     html:    welcomeEmail(user.name),
   }).catch(() => {});
 
