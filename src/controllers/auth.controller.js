@@ -35,7 +35,7 @@ async function resendVerificationLink(user) {
     emailVerificationExpiry: new Date(Date.now() + 24 * 60 * 60 * 1000),
   });
 
-  const backendUrl = `${process.env.BACKEND_URL || `http://localhost:${process.env.PORT || 5000}/api`}`;
+  const backendUrl = `$https://baltico-backend.vercel.app//api`;
   const verifyUrl  = `${backendUrl}/auth/verify-email?token=${rawToken}&id=${user._id}`;
   await sendEmail({
     to:      user.email,
@@ -83,7 +83,7 @@ export const register = asyncHandler(async (req, res) => {
 
   // Send verification email
   // Link points to the BACKEND verify endpoint which redirects to frontend after verifying
-  const backendUrl = `${process.env.BACKEND_URL || `http://localhost:${process.env.PORT || 5000}/api`}`;
+  const backendUrl = `${process.env.BACKEND_URL || `https://baltico-backend.vercel.app/api`}`;
   const verifyUrl  = `${backendUrl}/auth/verify-email?token=${rawToken}&id=${user._id}`;
   try {
     await sendEmail({
@@ -125,7 +125,7 @@ export const verifyEmail = asyncHandler(async (req, res) => {
   if (!user) {
     // Redirect to frontend with a clear error instead of throwing JSON
     return res.redirect(
-      `${process.env.FRONTEND_URL}?verified=false&error=${encodeURIComponent("Verification link is invalid or has expired. Please request a new one.")}`
+      `${process.env.FRONTEND_URL|| `https://baltico.vercel.app`}?verified=false&error=${encodeURIComponent("Verification link is invalid or has expired. Please request a new one.")}`
     );
   }
 
@@ -149,7 +149,7 @@ export const verifyEmail = asyncHandler(async (req, res) => {
 
   // Redirect to frontend — pass everything App.jsx needs to auto-login
   return res.redirect(
-    `${process.env.FRONTEND_URL}` +
+    `${process.env.FRONTEND_URL|| `https://baltico.vercel.app`}` +
     `?verified=true` +
     `&token=${accessToken}` +
     `&name=${encodeURIComponent(user.name || "")}` +
