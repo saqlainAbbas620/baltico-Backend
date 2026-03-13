@@ -7,6 +7,7 @@ import { sendEmail } from "../config/nodemailer.js";
 import { verificationEmail, welcomeEmail } from "../utils/emailTemplates.js";
 import jwt from "jsonwebtoken";
 
+
 // ── Helper: generate both tokens and save refresh to DB ───────────────────────
 const generateTokens = async (user) => {
   const accessToken  = user.generateAccessToken();
@@ -46,8 +47,9 @@ async function resendVerificationLink(user) {
 
 // ── POST /api/auth/register ───────────────────────────────────────────────────
 export const register = asyncHandler(async (req, res) => {
+  
   const { name, email, password } = req.body;
-
+  
   if (!name || !email || !password) {
     throw new ApiError(400, "Name, email and password are required");
   }
